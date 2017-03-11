@@ -1,5 +1,4 @@
 #include "SensorService.h"
-#include "LoggingConfig.h"
 
 SensorService SensorService::sensorService = SensorService();
 
@@ -21,13 +20,17 @@ int SensorService::getReading(sensor_data *buffer) {
 #if TEMPERATURE
   sensor_data datas[2] = {
       {dht.readTemperature(), "temperature"},
-      {dht.readHumidity(), "humidity"}
+      {dht.readHumidity(),    "humidity"}
   };
   memcpy(buffer, datas, sizeof(datas));
   return 2;
-#elif MOTION
 
-
+#elif SOILMOISTURE
+  sensor_data data[1] = {
+    {analogRead(MOISTURE_PIN) / 10.24, "soilmoisture"}
+  };
+  memcpy(buffer, data, sizeof(data));
+  return 1;
 
 #endif
 }

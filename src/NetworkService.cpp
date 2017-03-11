@@ -6,10 +6,10 @@ RF24Network NetworkService::network = RF24Network(radio);
 RF24Mesh NetworkService::mesh = RF24Mesh(radio, network);
 
 void NetworkService::setupNetwork(uint8_t h_id) {
-    logln("Starting Mesh setup...");
+    debugLogln("Starting Mesh setup...");
     mesh.setNodeID(h_id);
     mesh.setChild(false);
-    logln("Initializing Mesh...");
+    debugLogln("Initializing Mesh...");
     mesh.begin(NETWORK_CHANNEL_NUM, RF24_250KBPS);
     radio.setPALevel(RF24_PA_MAX);
     radio.printDetails();
@@ -26,13 +26,13 @@ bool NetworkService::send(uint8_t msg_type, const void *data, size_t size, uint8
         mesh.releaseAddress();
         return true;
     } else {
-        logln("Write failure!");
+        debugLogln("Write failure!");
 
         if (!mesh.checkConnection()) {
-            logln("Renewing Address");
+            debugLogln("Renewing Address");
             mesh.renewAddress();
         } else {
-            logln("Send fail, Test OK");
+            debugLogln("Send fail, Test OK");
         }
         return false;
     }

@@ -6,6 +6,8 @@
 #define DHT_PIN 3
 #define DHT_TYPE DHT22
 
+#define MOISTURE_PIN A0
+
 struct sensor_data {
     float data;
     char type[15];
@@ -24,7 +26,7 @@ private:
 
 #if TEMPERATURE
     DHT dht = DHT(DHT_PIN, DHT_TYPE);
-#elif MOTION
+#elif SOILMOISTURE
 
 #endif
 

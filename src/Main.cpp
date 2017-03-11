@@ -28,20 +28,20 @@ void setup() {
 void loop() {
   networkService.update();
 
-  logln("Reading sensor...")
+  debugLogln("Reading sensor...")
   int dataNum = sensorService.getReading(dataBuffer);
 
   bool successful_send = true;
 
-  logln("Sending data...")
+  debugLogln("Sending data...");
   for (int i = 0; i < dataNum; ++i) {
-    log("#");
-    log(i);
-    log(": ")
+    debugLog("#");
+    debugLog(i);
+    debugLog(": ");
     if (networkService.send('S', &dataBuffer[i], sizeof(sensor_data))) {
-      logln("success")
+      debugLogln("success");
     } else {
-      logln("FAILED")
+      debugLogln("FAILED");
       successful_send = false;
     }
   }
