@@ -11,7 +11,8 @@ void SensorService::setupSensor() {
 #if TEMPERATURE
   dht.begin();
 #elif MOTION
-
+  pinMode(MOISTURE_PIN, INPUT);
+  analogWrite(MOISTURE_PIN, 0);
 #endif
 }
 
@@ -27,7 +28,7 @@ int SensorService::getReading(sensor_data *buffer) {
 
 #elif SOILMOISTURE
   sensor_data data[1] = {
-    {analogRead(MOISTURE_PIN) / 10.24, "soilmoisture"}
+    {100 - (analogRead(MOISTURE_PIN) / 10.24), "soilmoisture"}
   };
   memcpy(buffer, data, sizeof(data));
   return 1;
