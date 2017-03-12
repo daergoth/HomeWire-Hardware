@@ -21,7 +21,6 @@ bool NetworkService::send(uint8_t msg_type, const void *data, size_t size, uint8
     }
 
     if (mesh.write(data, msg_type, size, nodeID)) {
-//        logln("Successful write!");
         delay(10);
         mesh.releaseAddress();
         return true;

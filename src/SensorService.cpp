@@ -14,6 +14,11 @@ void SensorService::setupSensor() {
   pinMode(MOISTURE_PIN, INPUT);
   analogWrite(MOISTURE_PIN, 0);
 #endif
+
+#ifdef REACTIVE
+  attachInterrupt(digitalPinToInterrupt(REACTIVE_PIN), onReactiveChange, CHANGE);
+#endif
+
 }
 
 int SensorService::getReading(sensor_data *buffer) {
@@ -33,8 +38,21 @@ int SensorService::getReading(sensor_data *buffer) {
   memcpy(buffer, data, sizeof(data));
   return 1;
 
+#elif MOTION
+  sensor_data data[1] = {
+    {digitalRead(REACTIVE_PIN), "motion"}
+  };
+  memcpy(buffer, data, sizeof(data));
+  return 1;
+
+#else
+  return 0;
+
 #endif
 }
+
+void SensorService::onReactiveChange() {}
+
 
 
 

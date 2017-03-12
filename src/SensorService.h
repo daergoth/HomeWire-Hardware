@@ -8,6 +8,8 @@
 
 #define MOISTURE_PIN A0
 
+#define REACTIVE_PIN 2
+
 struct sensor_data {
     float data;
     char type[15];
@@ -21,8 +23,10 @@ public:
     int getReading(sensor_data *buffer);
 
 private:
-    SensorService() = default;
     static SensorService sensorService;
+
+    SensorService() = default;
+    static void onReactiveChange();
 
 #if TEMPERATURE
     DHT dht = DHT(DHT_PIN, DHT_TYPE);
