@@ -8,21 +8,23 @@ SensorService SensorService::getInstance() {
 }
 
 void SensorService::setupSensor() {
-#if def(TEMPERATURE)
+#if defined(TEMPERATURE)
   dht.begin();
-#elif def(SOILMOISTURE)
+#elif defined(SOILMOISTURE)
   pinMode(MOISTURE_PIN, INPUT);
   analogWrite(MOISTURE_PIN, 0);
+#elif defined(MOTION)
+  pinMode(MOTION_PIN, INPUT);
 #endif
 
-#if def(REACTIVE)
+#if defined(REACTIVE)
   attachInterrupt(digitalPinToInterrupt(REACTIVE_PIN), onReactiveChange, CHANGE);
 #endif
 }
 
 int SensorService::getReading(sensor_data *buffer) {
 
-#if def(TEMPERATURE)
+#if defined(TEMPERATURE)
   sensor_data datas[2] = {
       {dht.readTemperature(), "temperature"},
       {dht.readHumidity(),    "humidity"}
@@ -30,14 +32,14 @@ int SensorService::getReading(sensor_data *buffer) {
   memcpy(buffer, datas, sizeof(datas));
   return 2;
 
-#elif def(SOILMOISTURE)
+#elif defined(SOILMOISTURE)
   sensor_data data[1] = {
     {100 - (analogRead(MOISTURE_PIN) / 10.24), "soilmoisture"}
   };
   memcpy(buffer, data, sizeof(data));
   return 1;
 
-#elif def(MOTION)
+#elif defined(MOTION)
   sensor_data data[1] = {
     {digitalRead(MOTION_PIN), "motion"}
   };

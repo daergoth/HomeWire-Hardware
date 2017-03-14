@@ -7,6 +7,7 @@
 #include <RF24Mesh.h>
 #include <EEPROM.h>
 #include "LoggingConfig.h"
+#include "ActorService.h"
 
 #define NETWORK_CHANNEL_NUM 108
 
@@ -19,6 +20,8 @@ public:
     void setupNetwork(uint8_t h_id);
 
     bool send(uint8_t msg_type, const void *data, size_t size, uint8_t nodeID = 0);
+
+    uint8_t read(void *data);
 
     void update();
 

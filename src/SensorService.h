@@ -36,7 +36,7 @@ private:
 
     static void onReactiveChange();
 
-#if TEMPERATURE
+#ifdef TEMPERATURE
     DHT dht = DHT(DHT_PIN, DHT_TYPE);
 #endif
 

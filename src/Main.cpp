@@ -5,8 +5,8 @@
 
 #include "NetworkService.h"
 #include "SensorService.h"
-
-#define DELAY 10000
+#include "ActorService.h"
+#include "HardwareIdentification.h"
 
 #ifndef NODE_ID
 #define NODE_ID 2
@@ -14,9 +14,15 @@
 
 /*--- Global variables ---*/
 NetworkService networkService = NetworkService::getInstance();
+
+#if defined(SENSOR)
 SensorService sensorService = SensorService::getInstance();
+#elif defined(ACTOR)
+ActorService actorService = ActorService::getInstance();
+#endif
 
 sensor_data dataBuffer[5];
+actor_command commandBuffer[5];
 
 /*--- Methods ---*/
 
@@ -25,16 +31,22 @@ void setup() {
   printf_begin();
 
   networkService.setupNetwork(NODE_ID);
+
+#if defined(SENSOR)
   sensorService.setupSensor();
+#elif defined(ACTOR)
+  actorService.setupActor();
+#endif
 }
 
 void loop() {
   networkService.update();
 
+  bool success = true;
+
+#if defined(SENSOR)
   debugLogln("Reading sensor...")
   int dataNum = sensorService.getReading(dataBuffer);
-
-  bool successful_send = true;
 
   debugLogln("Sending data...");
   for (int i = 0; i < dataNum; ++i) {
@@ -45,16 +57,29 @@ void loop() {
       debugLogln("success");
     } else {
       debugLogln("FAILED");
-      successful_send = false;
+      success = false;
     }
   }
 
-  if (successful_send) {
+#elif defined(ACTOR)
+  debugLogln("Received radio interrupt...");
+  uint8_t commandNum = networkService.read(commandBuffer);
+
+  for (int i = 0; i < commandNum; ++i) {
+    debugLog("Set state to ");
+    debugLogln(commandBuffer[i].targetState);
+
+    actorService.setState(commandBuffer[i].targetState != 0);
+  }
+
+#endif
+
+  if (success) {
     delay(100);
     // disable ADC
     ADCSRA = 0;
 
-#ifndef REACTIVE
+#if defined(SENSOR) && !defined(REACTIVE)
     // clear various "reset" flags
     MCUSR = 0;
     // allow changes, disable reset
