@@ -14,6 +14,8 @@
 #define RF24_CE_PIN 7
 #define RF24_CS_PIN 8
 
+#define ENABLE_SLEEP_MODE
+
 class NetworkService {
 
 public:

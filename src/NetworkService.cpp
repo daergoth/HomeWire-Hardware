@@ -13,7 +13,7 @@ void NetworkService::setupNetwork(uint8_t h_id) {
     debugLogln("Initializing Mesh...");
     mesh.begin(NETWORK_CHANNEL_NUM, RF24_250KBPS);
     radio.setPALevel(RF24_PA_MAX);
-    radio.maskIRQ(false, false, true);
+    radio.maskIRQ(true, true, false);
     radio.printDetails();
 }
 

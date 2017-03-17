@@ -65,6 +65,9 @@ void loop() {
   debugLogln("Received radio interrupt...");
   uint8_t commandNum = networkService.read(commandBuffer);
 
+  debugLog("Received command num: ");
+  debugLogln(commandNum);
+
   for (int i = 0; i < commandNum; ++i) {
     debugLog("Set state to ");
     debugLogln(commandBuffer[i].targetState);
