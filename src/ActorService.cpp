@@ -15,6 +15,15 @@ void ActorService::setupActor() {
 #endif
 }
 
+bool ActorService::getState() {
+#if defined(RELAY)
+  return digitalRead(RELAY_PIN);
+#else
+  return false;
+#endif
+}
+
+
 void ActorService::setState(bool state) {
 
 #if defined(RELAY)

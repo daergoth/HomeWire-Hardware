@@ -27,6 +27,8 @@ public:
 
     void update();
 
+    void disconnect();
+
     static NetworkService getInstance();
 
 private:

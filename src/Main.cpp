@@ -54,6 +54,7 @@ void loop() {
     debugLog(i);
     debugLog(": ");
     if (networkService.send('S', &dataBuffer[i], sizeof(sensor_data))) {
+      networkService.disconnect();
       debugLogln("success");
     } else {
       debugLogln("FAILED");
@@ -73,6 +74,17 @@ void loop() {
     debugLogln(commandBuffer[i].targetState);
 
     actorService.setState(commandBuffer[i].targetState != 0);
+  }
+
+  debugLogln("Sending state...");
+  bool currentState = actorService.getState();
+
+  if (networkService.send('A', &currentState, sizeof(currentState))) {
+    networkService.disconnect();
+    debugLogln("success");
+  } else {
+    debugLogln("FAILED");
+    success = false;
   }
 
 #endif

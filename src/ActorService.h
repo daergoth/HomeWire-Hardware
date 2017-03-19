@@ -18,6 +18,8 @@ public:
 
     void setupActor();
 
+    bool getState();
+
     void setState(bool state);
 
 private:
