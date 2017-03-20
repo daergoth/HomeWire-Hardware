@@ -22,10 +22,10 @@ void SensorService::setupSensor() {
 #endif
 }
 
-int SensorService::getReading(sensor_data *buffer) {
+int SensorService::getReading(device_data *buffer) {
 
 #if defined(TEMPERATURE)
-  sensor_data datas[2] = {
+  device_data datas[2] = {
       {dht.readTemperature(), "temperature"},
       {dht.readHumidity(),    "humidity"}
   };
@@ -33,14 +33,14 @@ int SensorService::getReading(sensor_data *buffer) {
   return 2;
 
 #elif defined(SOILMOISTURE)
-  sensor_data data[1] = {
+  device_data data[1] = {
     {100 - (analogRead(MOISTURE_PIN) / 10.24), "soilmoisture"}
   };
   memcpy(buffer, data, sizeof(data));
   return 1;
 
 #elif defined(MOTION)
-  sensor_data data[1] = {
+  device_data data[1] = {
     {digitalRead(MOTION_PIN), "motion"}
   };
   memcpy(buffer, data, sizeof(data));

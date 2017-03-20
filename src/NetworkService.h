@@ -16,6 +16,15 @@
 
 #define ENABLE_SLEEP_MODE
 
+struct device_command {
+    uint8_t targetState;
+};
+
+struct device_data {
+    float data;
+    char type[15];
+};
+
 class NetworkService {
 
 public:

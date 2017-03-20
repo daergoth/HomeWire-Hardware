@@ -51,13 +51,13 @@ uint8_t NetworkService::read(void *data) {
 
         switch(header.type) {
             case 'A': {
-                actor_command dat;
+                device_command dat;
 
                 network.read(header,&dat,sizeof(dat));
 
                 printf("Rcv actor command: target state:%d \n", dat.targetState);
 
-                memcpy(data + dataCount * sizeof(actor_command), &dat, sizeof(dat));
+                memcpy(data + dataCount * sizeof(device_command), &dat, sizeof(dat));
 
                 dataCount++;
                 }

@@ -21,8 +21,8 @@ SensorService sensorService = SensorService::getInstance();
 ActorService actorService = ActorService::getInstance();
 #endif
 
-sensor_data dataBuffer[5];
-actor_command commandBuffer[5];
+device_data dataBuffer[5];
+device_command commandBuffer[5];
 
 /*--- Methods ---*/
 
@@ -53,7 +53,7 @@ void loop() {
     debugLog("#");
     debugLog(i);
     debugLog(": ");
-    if (networkService.send('S', &dataBuffer[i], sizeof(sensor_data))) {
+    if (networkService.send('S', &dataBuffer[i], sizeof(device_data))) {
       networkService.disconnect();
       debugLogln("success");
     } else {
@@ -76,15 +76,18 @@ void loop() {
     actorService.setState(commandBuffer[i].targetState != 0);
   }
 
-  debugLogln("Sending state...");
-  bool currentState = actorService.getState();
+  if (commandNum > 0) {
+    debugLogln("Sending state...");
+    bool currentState = actorService.getState();
 
-  if (networkService.send('A', &currentState, sizeof(currentState))) {
-    networkService.disconnect();
-    debugLogln("success");
-  } else {
-    debugLogln("FAILED");
-    success = false;
+    device_data actorData{currentState, "relay"};
+
+    if (networkService.send('A', &actorData, sizeof(device_data))) {
+      debugLogln("success");
+    } else {
+      debugLogln("FAILED");
+      success = false;
+    }
   }
 
 #endif

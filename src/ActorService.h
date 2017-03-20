@@ -8,10 +8,6 @@
 // RELAY
 #define RELAY_PIN 2
 
-struct actor_command {
-    uint8_t targetState;
-};
-
 class ActorService {
 public:
     static ActorService getInstance();

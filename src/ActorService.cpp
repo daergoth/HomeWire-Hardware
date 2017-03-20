@@ -8,7 +8,7 @@ ActorService ActorService::getInstance() {
 
 void ActorService::setupActor() {
   pinMode(RADIO_INTERRUPT_PIN, INPUT_PULLUP);
-  attachInterrupt(digitalPinToInterrupt(RADIO_INTERRUPT_PIN), onCommandReceived, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(RADIO_INTERRUPT_PIN), onCommandReceived, FALLING);
 
 #if defined(RELAY)
   pinMode(RELAY_PIN, OUTPUT);
@@ -17,7 +17,7 @@ void ActorService::setupActor() {
 
 bool ActorService::getState() {
 #if defined(RELAY)
-  return digitalRead(RELAY_PIN);
+  return !digitalRead(RELAY_PIN);
 #else
   return false;
 #endif

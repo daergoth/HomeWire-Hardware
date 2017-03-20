@@ -2,6 +2,7 @@
 #define HOMEWIRE_HARDWARE_SENSORSERVICE_H
 
 #include <DHT.h>
+#include "NetworkService.h"
 
 // REACTIVE
 #define REACTIVE_PIN 2
@@ -16,18 +17,13 @@
 // MOTION
 #define MOTION_PIN REACTIVE_PIN
 
-struct sensor_data {
-    float data;
-    char type[15];
-};
-
 class SensorService {
 public:
     static SensorService getInstance();
 
     void setupSensor();
 
-    int getReading(sensor_data *buffer);
+    int getReading(device_data *buffer);
 
 private:
     static SensorService sensorService;
