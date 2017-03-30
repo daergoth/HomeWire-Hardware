@@ -15,7 +15,7 @@ void ActorService::setupActor() {
 #endif
 }
 
-bool ActorService::getState() {
+float ActorService::getState() {
 #if defined(RELAY)
   return !digitalRead(RELAY_PIN);
 #else
@@ -24,10 +24,10 @@ bool ActorService::getState() {
 }
 
 
-void ActorService::setState(bool state) {
+void ActorService::setState(float state) {
 
 #if defined(RELAY)
-  digitalWrite(RELAY_PIN, state ? LOW : HIGH);
+  digitalWrite(RELAY_PIN, state < 1e-5 ? LOW : HIGH);
 #endif
 
 }

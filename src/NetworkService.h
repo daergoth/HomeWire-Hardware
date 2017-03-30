@@ -17,7 +17,7 @@
 #define ENABLE_SLEEP_MODE
 
 struct device_command {
-    uint8_t targetState;
+    float targetState;
 };
 
 struct device_data {

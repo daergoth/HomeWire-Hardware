@@ -14,9 +14,9 @@ public:
 
     void setupActor();
 
-    bool getState();
+    float getState();
 
-    void setState(bool state);
+    void setState(float state);
 
 private:
     static ActorService actorService;

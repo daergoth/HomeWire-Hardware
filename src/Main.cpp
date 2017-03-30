@@ -73,12 +73,12 @@ void loop() {
     debugLog("Set state to ");
     debugLogln(commandBuffer[i].targetState);
 
-    actorService.setState(commandBuffer[i].targetState != 0);
+    actorService.setState(commandBuffer[i].targetState);
   }
 
   if (commandNum > 0) {
     debugLogln("Sending state...");
-    bool currentState = actorService.getState();
+    float currentState = actorService.getState();
 
     device_data actorData{currentState, "relay"};
 

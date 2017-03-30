@@ -55,7 +55,7 @@ uint8_t NetworkService::read(void *data) {
 
                 network.read(header,&dat,sizeof(dat));
 
-                printf("Rcv actor command: target state:%d \n", dat.targetState);
+                printf("Rcv actor command: target state:%f \n", dat.targetState);
 
                 memcpy(data + dataCount * sizeof(device_command), &dat, sizeof(dat));
 
