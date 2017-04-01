@@ -36,6 +36,17 @@ void setup() {
   sensorService.setupSensor();
 #elif defined(ACTOR)
   actorService.setupActor();
+
+  debugLogln("Sending initial state... ");
+  float currentState = actorService.getState();
+
+  device_data actorData{currentState, "relay"};
+
+  while (!networkService.send('A', &actorData, sizeof(device_data))) {
+    delay(20);
+  }
+  debugLogln("success");
+
 #endif
 }
 
@@ -88,6 +99,10 @@ void loop() {
       debugLogln("FAILED");
       success = false;
     }
+
+    // Wait for reaction to our sent state and later handle it normally
+    delay(100);
+    return;
   }
 
 #endif

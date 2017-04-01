@@ -8,7 +8,7 @@ ActorService ActorService::getInstance() {
 
 void ActorService::setupActor() {
   pinMode(RADIO_INTERRUPT_PIN, INPUT_PULLUP);
-  attachInterrupt(digitalPinToInterrupt(RADIO_INTERRUPT_PIN), onCommandReceived, FALLING);
+  attachInterrupt(digitalPinToInterrupt(RADIO_INTERRUPT_PIN), onCommandReceived, CHANGE);
 
 #if defined(RELAY)
   pinMode(RELAY_PIN, OUTPUT);
